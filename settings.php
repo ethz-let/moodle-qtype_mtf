@@ -49,4 +49,10 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('qtype_mtf/shuffleanswers',
         get_string('shuffleanswers', 'qtype_mtf'),
         get_string('shuffleanswers_help', 'qtype_mtf'), 1));
+
+    // Allow negative points in questions.
+    $settings->add(new admin_setting_configcheckbox('qtype_mtf/allowdeduction',
+        get_string('allowdeduction', 'qtype_mtf'),
+        get_string('allowdeduction_help', 'qtype_mtf'), 0));
+
 }

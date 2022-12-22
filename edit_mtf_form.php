@@ -252,6 +252,18 @@ class qtype_mtf_edit_form extends question_edit_form {
         $mform->setDefault('scoringmethod', 'subpoints');
         $mform->addElement('advcheckbox', 'shuffleanswers', get_string('shuffleanswers', 'qtype_mtf'), null, null, array(0, 1));
         $mform->addHelpButton('shuffleanswers', 'shuffleanswers', 'qtype_mtf');
+
+        if (get_config('qtype_mtf')->allowdeduction) {
+            $mform->addElement('text', 'deduction', get_string('deduction', 'qtype_mtf'), array('size' => 6));
+            $mform->addHelpButton('deduction', 'deduction', 'qtype_mtf');
+            $mform->setDefault('deduction', '0');
+            $mform->setType('deduction', PARAM_FLOAT);
+        } else {
+            $mform->addElement('hidden', 'deduction');
+            $mform->setType('deduction', PARAM_FLOAT);
+            $mform->setDefault('deduction', '0');
+        }
+
         $mform->addElement('header', 'answerhdr', get_string('optionsandfeedback', 'qtype_mtf'), '');
         $mform->setExpanded('answerhdr', 1);
 
@@ -454,6 +466,7 @@ class qtype_mtf_edit_form extends question_edit_form {
         if (isset($question->options)) {
             $question->shuffleanswers = $question->options->shuffleanswers;
             $question->scoringmethod = $question->options->scoringmethod;
+            $question->deduction = $question->options->deduction;
             $question->rows = $question->options->rows;
             $question->columns = $question->options->columns;
             $question->numberofrows = $question->options->numberofrows;
@@ -516,6 +529,14 @@ class qtype_mtf_edit_form extends question_edit_form {
             // Now check whether the string is empty.
             if (!empty($optiontext)) {
                 $countfulloption++;
+            }
+        }
+
+        // If deduction is set, it must be >= 0 and <= 1
+        if (isset($data['deduction'])) {
+            $deduction = $data['deduction'];
+            if ($deduction < 0 || $deduction > 1) {
+                $errors['deduction'] = get_string('invaliddeduction', 'qtype_mtf');
             }
         }
 

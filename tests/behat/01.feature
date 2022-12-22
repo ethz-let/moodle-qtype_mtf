@@ -20,6 +20,52 @@ Feature: Step 1
       | Test questions   | mtf   | MTF Question 2 | question_one |
     And I log in as "admin"
 
+  @javascript
+  Scenario: Deduction for wrong answers
+    # Check that the allowdeduction option is NOT checked in the plugin administration
+    When I log in as "admin"
+    And I navigate to "Plugins > Question types > Multiple True False (ETH)" in site administration
+    And I should see "Default values for Multiple True/False questions."
+    And the following fields match these values:
+      | id_s_qtype_mtf_allowdeduction |  |
+    # The teacher should not be able to set deductions.
+    And I am on "Course 1" course homepage
+    And I navigate to "Question bank" in current page administration
+    And I press "Create a new question ..."
+    And I set the field "item_qtype_mtf" to "1"
+    And I press "submitbutton"
+    Then I should see "Adding a Multiple True/False question"
+    And I follow "Scoring method"
+    Then I should not see "Deduction if wrong"
+    # Now activate the deduction
+    And I navigate to "Plugins > Question types > Multiple True False (ETH)" in site administration
+    And I should see "Default values for Multiple True/False questions."
+    And I set the following fields to these values:
+      | id_s_qtype_mtf_allowdeduction | 1 |
+    And I press "Save changes"
+    # The teacher should now be able to set deductions.
+    And I am on "Course 1" course homepage
+    And I navigate to "Question bank" in current page administration
+    And I press "Create a new question ..."
+    And I set the field "item_qtype_mtf" to "1"
+    And I press "submitbutton"
+    Then I should see "Adding a Multiple True/False question"
+    And I set the following fields to these values:
+      | id_name      | test title |
+      | id_deduction | 1.5        |
+    And I press "submitbutton"
+    Then I should see "Deduction must be a float between 0 and 1 (inclusive)"
+    And I set the following fields to these values:
+      | id_deduction | -0.5 |
+    And I press "submitbutton"
+    Then I should see "Deduction must be a float between 0 and 1 (inclusive)"
+    And I set the following fields to these values:
+      | id_deduction | 0.1234 |
+    And I press "submitbutton"
+    Then I should not see "Deduction must be a float between 0 and 1 (inclusive)"
+    And the following fields match these values:
+      | id_deduction | 0.1234 |
+
   @javascript @qtype_mtf_1_sc_34
   Scenario: Testcase 34
 

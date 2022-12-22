@@ -42,6 +42,8 @@ class qtype_mtf_question extends question_graded_automatically_with_countback {
     public $weights;
     /** @var string scoringmethod */
     public $scoringmethod;
+    /** @var float deduction */
+    public $deduction;
     /** @var bool shuffleanswers */
     public $shuffleanswers;
     /** @var int numberofrows */

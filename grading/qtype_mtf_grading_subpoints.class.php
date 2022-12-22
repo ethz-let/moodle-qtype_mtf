@@ -62,6 +62,7 @@ class qtype_mtf_grading_subpoints extends qtype_mtf_grading {
      * @return int
      */
     public function grade_question($question, $answers) {
+        $totalrows = count($question->rows);
         $correctrows = 0;
         foreach ($question->order as $key => $rowid) {
             $row = $question->rows[$rowid];
@@ -70,9 +71,14 @@ class qtype_mtf_grading_subpoints extends qtype_mtf_grading {
                 ++$correctrows;
             }
         }
-        // Subpoints: For each correct response, the student gets subpoints. That is: max. points
-        // divided
-        // by number of options times number of correct options.
-        return 1.0 * $correctrows / count($question->rows);
+        $wrongrows = $totalrows - $correctrows;
+        // Subpoints: For each correct response, the student gets subpoints.
+        // That is: max. points divided by number of options times number of correct options.
+        // If a deduction is set (and allowed), the corresponding proportion will be subtracted for
+        // each wrong anser.
+        $grade = 1.0 * ($correctrows - $wrongrows * $question->deduction) / $totalrows;
+        $grade = max(0, $grade);
+
+        return $grade;
     }
 }

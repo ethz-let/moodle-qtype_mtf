@@ -69,6 +69,7 @@ class qtype_mtf_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $mtf->questiontext = 'the right choices are option 1 and option 2';
         $mtf->generalfeedback = 'You should do this and that';
         $mtf->answernumbering = 'abc';
+        $mtf->deduction = 0.0;
         $mtf->scoringmethod = "subpoints";
         $mtf->options = new stdClass();
         $mtf->shuffleanswers = 0;
@@ -173,5 +174,18 @@ class qtype_mtf_walkthrough_test extends qbehaviour_walkthrough_test_base {
             new question_pattern_expectation('/name=\".*1_option0\".*value=\"1\".*checked=\"checked\"/'),
             new question_pattern_expectation('/name=\".*1_option1\".*value=\"2\".*checked=\"checked\"/')
         );
+    }
+
+    /**
+     * Test deduction for wrong answers
+     */
+    public function test_deduction_mtf() {
+        $mtf = $this->make_a_mtf_question();
+        $mtf->deduction = 0.5;
+        $this->start_attempt_at_question($mtf, 'immediatefeedback', 1);
+        $this->process_submission(array("option0" => 1, "option1" => 1));
+        $this->quba->finish_all_questions();
+        $this->check_current_state(question_state::$gradedpartial);
+        $this->check_current_mark(0.25);
     }
 }

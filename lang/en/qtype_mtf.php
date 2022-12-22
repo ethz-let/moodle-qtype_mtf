@@ -24,6 +24,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['allowdeduction'] = 'Allow penalty deductions';
+$string['allowdeduction_help'] = 'If enabled, teachers can configure their questions to have deductions for wrong answers.
+        If disabled, this option will not be available, e. g. because the institution does not want penalties in this question type.';
 $string['answernumbering'] = 'Number the options?';
 $string['answernumbering123'] = '1., 2., 3., ...';
 $string['answernumberingabc'] = 'a., b., c., ...';
@@ -34,6 +37,8 @@ $string['answernumberingnone'] = 'No numbering';
 $string['configintro'] = 'Default values for Multiple True/False questions.';
 $string['configscoringmethod'] = 'Default scoring method for Multiple True/False questions.';
 $string['configshuffleanswers'] = 'Default setting for option shuffling in Multiple True/False questions.';
+$string['deduction'] = 'Deduction if wrong';
+$string['deduction_help'] = 'Penalty to be deducted for wrong answers, as a fraction of the points the item would get. Only useful if using subpoints scoring method.';
 $string['deletedchoice'] = 'This choice was deleted after the attempt was started.';
 $string['enterfeedbackhere'] = 'Enter feedback here.';
 $string['entergeneralfeedbackhere'] = 'Enter general feedback here.';
@@ -43,6 +48,7 @@ $string['false'] = 'False';
 $string['feedbackforoption'] = 'Feedback for';
 $string['generalfeedback'] = 'General Feedback.';
 $string['generalfeedback_help'] = 'The same general feedback is displayed regardless of the answer chosen. <br />Use general feedback e.g. to explain the correct answers or give students a link to additional information.';
+$string['invaliddeduction'] = 'Deduction must be a float between 0 and 1 (inclusive)';
 $string['maxpoints'] = 'Max. points';
 $string['mustsupplyresponses'] = 'You must supply values for all responses.';
 $string['mustsupplyvalue'] = 'You must supply a value here.';

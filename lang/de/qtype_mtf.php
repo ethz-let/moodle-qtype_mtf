@@ -24,6 +24,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['allowdeduction'] = 'Punktabzug erlauben';
+$string['allowdeduction_help'] = 'Wenn aktiviert, kann die Lehrperson bei Fragen negative Punkte (also einen Abzug) für falsche Antworten aktivieren.
+        Wenn deaktivert, wird die Einstellung nicht angezeigt, z. B. weil die Institution aus didaktischen Gründen keine Strafpunkte bei diesem Fragetypen erlauben möchte.';
 $string['answernumbering'] = 'Wahlantworten nummerieren?';
 $string['answernumbering123'] = '1., 2., 3., ...';
 $string['answernumberingabc'] = 'a., b., c., ...';
@@ -36,6 +39,8 @@ $string['answersingleyes'] = 'Nur eine Antwort erlauben';
 $string['configintro'] = 'Standardeinstellungen für Mehrfach Wahr/Falsch-Fragen.';
 $string['configscoringmethod'] = 'Standard Bewertung für Mehrfach Wahr/Falsch-Fragen.';
 $string['configshuffleanswers'] = 'Standardeinstellung für das Mischen der Wahlantworten.';
+$string['deduction'] = 'Abzug wenn falsch';
+$string['deduction_help'] = 'Abzug für falsche Antworten, als Anteil der Punktzahl, welche das Item geben würde. Nur nützlich für die Bewertungsmethode Teilpunkte.';
 $string['deletedchoice'] = 'Diese Antwort wurde gelöscht, nachdem der Test gestartet worden ist.';
 $string['enterfeedbackhere'] = 'Feedback hinzufügen.';
 $string['entergeneralfeedbackhere'] = 'Allgemeines Feedback hinzufügen.';
@@ -45,6 +50,7 @@ $string['false'] = 'Falsch';
 $string['feedbackforoption'] = 'Feedback für';
 $string['generalfeedback'] = 'Allgemeines Feedback.';
 $string['generalfeedback_help'] = 'Allgemeines Feedback wird unabhängig von der gegebenen Antwort angezeigt. <br />Allgemeines Feedback kann eingesetzt werden, um korrekte Antworten zu erläutern oder Links zu weiteren Informationen zu geben.';
+$string['invaliddeduction'] = 'Der Abzug muss eine Zahl zwischen 0 und 1 (inklusive) sein';
 $string['maxpoints'] = 'Max. Punkte';
 $string['mustsupplyresponses'] = 'Sie müssen für alle Texte einen Wert eingeben.';
 $string['mustsupplyvalue'] = 'Sie müssen hier einen Wert eingeben.';
