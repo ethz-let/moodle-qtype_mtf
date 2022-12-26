@@ -36,6 +36,7 @@ $string['answernumberingIIII'] = 'I., II., III., ...';
 $string['answernumberingnone'] = 'Keine Nummerierung';
 $string['answersingleno'] = 'Mehrere Antworten erlauben';
 $string['answersingleyes'] = 'Nur eine Antwort erlauben';
+$string['clearrow'] = 'Antwort für Zeile {$a} löschen';
 $string['configintro'] = 'Standardeinstellungen für Mehrfach Wahr/Falsch-Fragen.';
 $string['configscoringmethod'] = 'Standard Bewertung für Mehrfach Wahr/Falsch-Fragen.';
 $string['configshuffleanswers'] = 'Standardeinstellung für das Mischen der Wahlantworten.';

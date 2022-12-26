@@ -34,6 +34,7 @@ $string['answernumberingABCD'] = 'A., B., C., ...';
 $string['answernumberingiii'] = 'i., ii., iii., ...';
 $string['answernumberingIIII'] = 'I., II., III., ...';
 $string['answernumberingnone'] = 'No numbering';
+$string['clearrow'] = 'Clear answer for row {$a}';
 $string['configintro'] = 'Default values for Multiple True/False questions.';
 $string['configscoringmethod'] = 'Default scoring method for Multiple True/False questions.';
 $string['configshuffleanswers'] = 'Default setting for option shuffling in Multiple True/False questions.';
