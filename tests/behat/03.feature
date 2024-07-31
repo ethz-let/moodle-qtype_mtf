@@ -80,6 +80,6 @@ Feature: Step 3
 
   # Delete a question from a quiz
     When I click on "Delete" "link" in the "MTF Question 4" "list_item"
-    And I click on "Yes" "button" in the ".moodle-dialogue-wrap" "css_element"
+    And I click on "Yes" "button" in the "Confirm" "dialogue"
     Then I should see "Questions"
     And I should not see "MTF Question 4"

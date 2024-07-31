@@ -376,10 +376,9 @@ Feature: Step 1
   Scenario: Testcase 13
 
   # Install the german language pack
-    When I navigate to "Language > Language packs" in site administration
-    And I set the field "Available language packs" to "de"
-    And I press "Install selected language pack(s)"
-    Then the "Installed language packs" select box should contain "de"
+    Given the following "language packs" exist:
+      | language |
+      | de       |
 
   # Create a question and check english language strings
     When I am on "Course 1" course homepage
