@@ -18,10 +18,10 @@
  * Version information for qtype_mtf.
  *
  * @package     qtype_mtf
- * @author      Amr Hourani (amr.hourani@id.ethz.ch) .
- * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
- * @copyright   2016 ETHZ {@link http://ethz.ch/}
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author      ETH Zurich (moodle@id.ethz.ch).
+ * @author      Martin Hanusch (martin.hanusch@let.ethz.ch).
+ * @copyright   2016 ETHZ {@link http://ethz.ch/}.
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 defined('MOODLE_INTERNAL') || die();
