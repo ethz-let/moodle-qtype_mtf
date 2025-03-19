@@ -18,7 +18,7 @@
  * Restore code for the qtype_mtf plugin.
  *
  * @package     qtype_mtf
- * @author      Amr Hourani (amr.hourani@id.ethz.ch)
+ * @author      ETH Zurich (moodle@ethz.ch)
  * @author      Martin Hanusch (martin.hanusch@let.ethz.ch)
  * @copyright   2016 ETHZ {@link http://ethz.ch/}
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -252,12 +252,13 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
     public static function convert_backup_to_questiondata(array $backupdata): stdClass {
         // First, convert standard data via the parent function.
         $questiondata = parent::convert_backup_to_questiondata($backupdata);
-
-        // Convert the row data. An array of all rows (as objects) is stored in $questiondata->options.
-        // Furthermore, there is the property $questiondata->option which contains an array of objects
-        // with the properties text (= row's optiontext field) and format (= row's optiontextformat field).
-        // And finally, there is the property $questiondata->feedback containing an array of objects with
-        // the properties text (= row's optionfeedback field) and format (= row's optionfeedbackformat field).
+        /**
+        * Convert the row data. An array of all rows (as objects) is stored in $questiondata->options.
+        * Furthermore, there is the property $questiondata->option which contains an array of objects
+        * with the properties text (= row's optiontext field) and format (= row's optiontextformat field).
+        * And finally, there is the property $questiondata->feedback containing an array of objects with
+        * the properties text (= row's optionfeedback field) and format (= row's optionfeedbackformat field).
+        */
         $questiondata->option = [];
         $questiondata->feedback = [];
         foreach ($backupdata['plugin_qtype_mtf_question']['rows']['row'] as $row) {
@@ -271,19 +272,21 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
                 'format' => $row['optionfeedbackformat'],
             ];
         }
-
-        // Next step is the column data. An array of all columns (as objects) is stored in $questiondata->columns.
-        // Furthermore, for every column N, a property $questiondata->responsetext_N must be created that holds the
-        // content of the column's responstext field.
+        /**
+        * Next step is the column data. An array of all columns (as objects) is stored in $questiondata->columns.
+        * Furthermore, for every column N, a property $questiondata->responsetext_N must be created that holds the
+        * content of the column's responstext field.
+        */
         foreach ($backupdata['plugin_qtype_mtf_question']['columns']['column'] as $column) {
             $questiondata->options->columns[] = (object) $column;
             $field = 'responsetext_' . $column['number'];
             $questiondata->$field = $column['responsetext'];
         }
-
-        // Finally, we have to store all weights in the $questiondata->weights property. That is a
-        // two-dimensional array, built like in qtype_mtf::weight_records_to_array(). Also, for every
-        // row, we store the number of the column that has a weight > 1.
+        /**
+        * Finally, we have to store all weights in the $questiondata->weights property. That is a
+        * two-dimensional array, built like in qtype_mtf::weight_records_to_array(). Also, for every
+        * row, we store the number of the column that has a weight > 1.
+        */
         $weights = [];
         $questiondata->weightbutton = [];
         foreach ($backupdata['plugin_qtype_mtf_question']['weights']['weight'] as $weight) {
