@@ -33,7 +33,7 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
      * Returns the paths to be handled by the plugin at question level.
      */
     protected function define_question_plugin_structure() {
-        $result = array();
+        $result = [];
 
         // We used get_recommended_name() so this works.
         $elename = 'mtf';
@@ -111,7 +111,7 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
             $data->questionid = $newquestionid;
             $newitemid = $DB->insert_record('qtype_mtf_columns', $data);
         } else {
-            $originalrecords = $DB->get_records('qtype_mtf_columns', array('questionid' => $newquestionid));
+            $originalrecords = $DB->get_records('qtype_mtf_columns', ['questionid' => $newquestionid]);
             foreach ($originalrecords as $record) {
                 if ($data->number == $record->number) {
                     $newitemid = $record->id;
@@ -146,7 +146,7 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
             $data->questionid = $newquestionid;
             $newitemid = $DB->insert_record('qtype_mtf_rows', $data);
         } else {
-            $originalrecords = $DB->get_records('qtype_mtf_rows', array('questionid' => $newquestionid));
+            $originalrecords = $DB->get_records('qtype_mtf_rows', ['questionid' => $newquestionid]);
             foreach ($originalrecords as $record) {
                 if ($data->number == $record->number) {
                     $newitemid = $record->id;
@@ -181,7 +181,7 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
             $data->questionid = $newquestionid;
             $newitemid = $DB->insert_record('qtype_mtf_weights', $data);
         } else {
-            $originalrecords = $DB->get_records('qtype_mtf_weights', array('questionid' => $newquestionid));
+            $originalrecords = $DB->get_records('qtype_mtf_weights', ['questionid' => $newquestionid]);
             foreach ($originalrecords as $record) {
                 if ($data->rownumber == $record->rownumber
                     && $data->columnnumber == $record->columnnumber) {
@@ -220,7 +220,7 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
      * @return string the recoded order.
      */
     protected function recode_option_order($order) {
-        $neworder = array();
+        $neworder = [];
         foreach (explode(',', $order) as $id) {
             if ($newid = $this->get_mappingid('qtype_mtf_rows', $id)) {
                 $neworder[] = $newid;
@@ -233,8 +233,8 @@ class restore_qtype_mtf_plugin extends restore_qtype_plugin {
      * Return the contents of this qtype to be processed by the links decoder.
      */
     public static function define_decode_contents() {
-        $contents = array();
-        $fields = array('optiontext', 'optionfeedback');
+        $contents = [];
+        $fields = ['optiontext', 'optionfeedback'];
         $contents[] = new restore_decode_content('qtype_mtf_rows', $fields, 'qtype_mtf_rows');
 
         return $contents;

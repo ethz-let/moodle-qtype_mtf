@@ -42,7 +42,7 @@ define('QTYPE_MTF_NUMBER_OF_RESPONSES', 2);
  *
  * @return bool
  */
-function qtype_mtf_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function qtype_mtf_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     global $CFG;
     require_once($CFG->libdir . '/questionlib.php');
     question_pluginfile($course, $context, 'qtype_mtf', $filearea, $args, $forcedownload, $options);

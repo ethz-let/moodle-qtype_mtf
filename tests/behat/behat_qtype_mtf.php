@@ -28,6 +28,12 @@
 
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
+/**
+ * Steps definitions related with for the multiple true false question type.
+ *
+ * @copyright  2016 ETHZ {@link http://ethz.ch/}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class behat_qtype_mtf extends behat_base {
 
     /**
@@ -40,7 +46,7 @@ class behat_qtype_mtf extends behat_base {
             new behat_component_named_selector(
                 'icon',
                 ["//span[@role='img'][contains(@class, %locator%)]"]
-            )
+            ),
         ];
     }
 }
