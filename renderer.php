@@ -24,8 +24,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Subclass for generating the bits of output specific to qtype_mtf questions.
  *
@@ -88,7 +86,7 @@ class qtype_mtf_renderer extends qtype_renderer {
         $response = $question->get_response($qa);
 
         $inputname = $qa->get_qt_field_name('option');
-        $inputattributes = array('type' => $this->get_input_type(), 'name' => $inputname);
+        $inputattributes = ['type' => $this->get_input_type(), 'name' => $inputname];
 
         if ($displayoptions->readonly) {
             $inputattributes['disabled'] = 'disabled';
@@ -98,12 +96,12 @@ class qtype_mtf_renderer extends qtype_renderer {
         $this->page->requires->js(new moodle_url($CFG->wwwroot . '/question/type/mtf/js/clear.js'));
 
         $result = '';
-        $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
+        $result .= html_writer::tag('div', $question->format_questiontext($qa), ['class' => 'qtext']);
 
         $table = new html_table();
         $table->attributes['class'] = 'generaltable';
 
-        $table->head = array();
+        $table->head = [];
 
         // If the question has a deduction defined, add empty header for column with trash icon.
         if ($hasdeduction) {
@@ -139,18 +137,18 @@ class qtype_mtf_renderer extends qtype_renderer {
             $row = $question->rows[$rowid];
 
             // Holds the data for one table row.
-            $rowdata = array();
+            $rowdata = [];
 
             // If the question has a deduction defined, add trash icon for each row.
             if ($hasdeduction) {
                 $alttext = get_string('clearrow', 'qtype_mtf', $key + 1);
-                $trashicon = html_writer::tag('span', '', array(
+                $trashicon = html_writer::tag('span', '', [
                     'class' => 'fa fa-trash',
                     'id' => 'qtype_mtf_reset_' . $qa->get_field_prefix() . $field,
                     'role' => 'img',
                     'aria-label' => $alttext,
-                    'title' => $alttext
-                ));
+                    'title' => $alttext,
+                ]);
                 $trashcell = new html_table_cell($trashicon);
                 $trashcell->attributes['class'] = 'mtfresponsebutton reset';
                 $rowdata[] = $trashcell;
@@ -224,7 +222,7 @@ class qtype_mtf_renderer extends qtype_renderer {
                         html_writer::tag('div',
                                 $question->make_html_inline($question->format_text($row->optionfeedback,
                                                 $row->optionfeedbackformat, $qa, 'qtype_mtf',
-                                                'feedbacktext', $rowid)), array('class' => 'mtfspecificfeedback')));
+                                                'feedbacktext', $rowid)), ['class' => 'mtfspecificfeedback']));
                 $rowdata[] = $cell;
             } else {
                 $cell = new html_table_cell(html_writer::tag('div', ''));
@@ -241,7 +239,7 @@ class qtype_mtf_renderer extends qtype_renderer {
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',
                     $question->get_validation_error($qa->get_last_qt_data()),
-                    array('class' => 'validationerror'));
+                    ['class' => 'validationerror']);
         }
 
         if (!empty(get_config('qtype_mtf')->showscoringmethod)) {
@@ -271,7 +269,7 @@ class qtype_mtf_renderer extends qtype_renderer {
             $label = get_string('scoringmethod', 'qtype_mtf') . ': <b>' . ucfirst($outputscoringmethod) . '</b>';
             $result .= html_writer::tag('div',
                 '<br>'. $label . $this->output->help_icon('scoring' . $question->scoringmethod, 'qtype_mtf'),
-                array('id' => 'scoringmethodinfo_q' . $question->id, 'label' => $label));
+                ['id' => 'scoringmethodinfo_q' . $question->id, 'label' => $label]);
         }
         return $result;
     }
@@ -320,7 +318,7 @@ class qtype_mtf_renderer extends qtype_renderer {
      */
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
-        $result = array();
+        $result = [];
         $response = '';
         $correctresponse = $question->get_correct_response(true);
 

@@ -32,10 +32,10 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('configintro', '', get_string('configintro', 'qtype_mtf')));
 
     // Scoring methods.
-    $options = array(
+    $options = [
         'mtfonezero' => get_string('scoringmtfonezero', 'qtype_mtf'),
         'subpointdeduction' => get_string('scoringsubpointdeduction', 'qtype_mtf'),
-        'subpoints' => get_string('scoringsubpoints', 'qtype_mtf'));
+        'subpoints' => get_string('scoringsubpoints', 'qtype_mtf'), ];
 
     $item = new admin_setting_configselect('qtype_mtf/scoringmethod',
         get_string('configscoringmethod', 'qtype_mtf'),
