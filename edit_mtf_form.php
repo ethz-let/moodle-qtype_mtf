@@ -224,13 +224,13 @@ class qtype_mtf_edit_form extends question_edit_form {
         if (isset($this->question->options->rows) && count($this->question->options->rows) > 0) {
             $this->numberofrows = count($this->question->options->rows);
         } else {
-            $this->numberofrows = 4;
+            $this->numberofrows = QTYPE_MTF_NUMBER_OF_OPTIONS;
         }
 
         if (isset($this->question->options->columns) && count($this->question->options->columns) > 0) {
             $this->numberofcolumns = count($this->question->options->columns);
         } else {
-            $this->numberofcolumns = 2;
+            $this->numberofcolumns = QTYPE_MTF_NUMBER_OF_RESPONSES;
         }
 
         $this->editoroptions['changeformat'] = 1;
