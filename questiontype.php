@@ -89,49 +89,44 @@ class question_hint_mtf extends question_hint_with_parts {
 class qtype_mtf extends question_type {
 
     /**
-     * Sets the default options for the question.
-     * (non-PHPdoc)
-     * @see question_type::set_default_options()
-     * @param object $question
+     * Returns the default options for the MTF question type.
+     * @param stdClass $options
+     * @return stdClass
      */
-    public function set_default_options($question) {
+    protected function get_default_mtf_options(stdClass $options): stdClass {
         $mtfconfig = get_config('qtype_mtf');
 
-        if (!isset($question->options)) {
-            $question->options = new stdClass();
+        if (!isset($options->numberofrows)) {
+            $options->numberofrows = QTYPE_MTF_NUMBER_OF_OPTIONS;
         }
-        if (!isset($question->options->numberofrows)) {
-            $question->options->numberofrows = QTYPE_MTF_NUMBER_OF_OPTIONS;
+        if (!isset($options->numberofcolumns)) {
+            $options->numberofcolumns = QTYPE_MTF_NUMBER_OF_RESPONSES;
         }
-        if (!isset($question->options->numberofcolumns)) {
-            $question->options->numberofcolumns = QTYPE_MTF_NUMBER_OF_RESPONSES;
+        if (!isset($options->shuffleanswers)) {
+            $options->shuffleanswers = $mtfconfig->shuffleanswers;
         }
-        if (!isset($question->options->shuffleanswers)) {
-            $question->options->shuffleanswers = $mtfconfig->shuffleanswers;
+        if (!isset($options->deduction)) {
+            $options->deduction = 0.0;
         }
-        if (!isset($question->options->deduction)) {
-            $question->options->deduction = 0.0;
+        if (!isset($options->scoringmethod)) {
+            $options->scoringmethod = $mtfconfig->scoringmethod;
         }
-        if (!isset($question->options->scoringmethod)) {
-            $question->options->scoringmethod = $mtfconfig->scoringmethod;
-        }
-        if (!isset($question->options->rows)) {
-            $rows = array();
-            for ($i = 1; $i <= $question->options->numberofrows; ++$i) {
+        if (!isset($options->rows)) {
+            $options->rows = [];
+            for ($i = 1; $i <= $options->numberofrows; ++$i) {
                 $row = new stdClass();
                 $row->number = $i;
                 $row->optiontext = '';
                 $row->optiontextformat = FORMAT_HTML;
                 $row->optionfeedback = '';
                 $row->optionfeedbackformat = FORMAT_HTML;
-                $rows[] = $row;
+                $options->rows[] = $row;
             }
-            $question->options->rows = $rows;
         }
 
-        if (!isset($question->options->columns)) {
-            $columns = array();
-            for ($i = 1; $i <= $question->options->numberofcolumns; ++$i) {
+        if (!isset($options->columns)) {
+            $options->columns = [];
+            for ($i = 1; $i <= $options->numberofcolumns; ++$i) {
                 $column = new stdClass();
                 $column->number = $i;
 
@@ -142,10 +137,24 @@ class qtype_mtf extends question_type {
                 }
                 $column->responsetext = $responsetextcol;
                 $column->responsetextformat = FORMAT_MOODLE;
-                $columns[] = $column;
+                $options->columns[] = $column;
             }
-            $question->options->columns = $columns;
         }
+
+        return $options;
+    }
+
+    /**
+     * Sets the default options for the question.
+     * (non-PHPdoc)
+     * @see question_type::set_default_options()
+     * @param object $question
+     */
+    public function set_default_options($question) {
+        if (!isset($question->options)) {
+            $question->options = new stdClass();
+        }
+        $question->options = $this->get_default_mtf_options($question->options);
     }
 
     /**
@@ -160,8 +169,14 @@ class qtype_mtf extends question_type {
         parent::get_question_options($question);
 
         // Retrieve the question options.
-        $question->options = $DB->get_record('qtype_mtf_options',
-                array('questionid' => $question->id));
+        $mtfoptions = $DB->get_record('qtype_mtf_options',
+            ['questionid' => $question->id]);
+        if (!$mtfoptions) {
+            $mtfoptions = $this->get_default_mtf_options($question->options);
+        }
+        foreach($mtfoptions as $property => $value) {
+            $question->options->$property = $value;
+        }
 
         // Retrieve the question rows (mtf options).
         $question->options->rows = $DB->get_records('qtype_mtf_rows',
@@ -177,7 +192,7 @@ class qtype_mtf extends question_type {
                 array('questionid' => $question->id),
                 'rownumber ASC, columnnumber ASC');
 
-        foreach ($question->options->rows as $key => $row) {
+        foreach ($question->options->rows as $row) {
 
             $indexcounter = $row->number - 1;
 
@@ -187,7 +202,7 @@ class qtype_mtf extends question_type {
             $question->feedback[$indexcounter]['format'] = $row->optionfeedbackformat;
         }
 
-        foreach ($question->options->columns as $key => $column) {
+        foreach ($question->options->columns as $column) {
             $question->{'responsetext_' . $column->number} = $column->responsetext;
         }
 
