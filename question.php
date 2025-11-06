@@ -51,6 +51,8 @@ class qtype_mtf_question extends question_graded_automatically_with_countback {
     public $order = null;
     /** @var bool editedquestion */
     public $editedquestion;
+    /** @var stdClass options */
+    public $options;
     /** @var string answernumbering */
     public $answernumbering;
 
