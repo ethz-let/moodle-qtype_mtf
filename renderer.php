@@ -84,8 +84,11 @@ class qtype_mtf_renderer extends qtype_renderer {
             // Styles for Moodle 5.0 and later with Bootstrap 5.
             $tableclass = 'table-reboot';
             $tdadditionalclass = ' m-3';
+            $tdcenterclass = ' text-center';
         } else {
             $tableclass = 'generaltable';
+            $tdadditionalclass = '';
+            $tdcenterclass = ' ';
         }
 
         $question = $qa->get_question();
@@ -200,7 +203,7 @@ class qtype_mtf_renderer extends qtype_renderer {
                     $radio .= '<span class="mtfgreyingout">' . $this->feedback_image($weight > 0.0) . '</span>';
                 }
                 $cell = new html_table_cell($radio);
-                $cell->attributes['class'] = 'mtfresponsebutton radio' . $tdadditionalclass;
+                $cell->attributes['class'] = 'mtfresponsebutton radio' . $tdcenterclass;
                 $rowdata[] = $cell;
             }
 
