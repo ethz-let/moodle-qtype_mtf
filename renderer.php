@@ -24,8 +24,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Subclass for generating the bits of output specific to qtype_mtf questions.
  *
@@ -33,7 +31,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_mtf_renderer extends qtype_renderer {
-
     /**
      * Returns the input type
      * @return string
@@ -88,7 +85,7 @@ class qtype_mtf_renderer extends qtype_renderer {
         $response = $question->get_response($qa);
 
         $inputname = $qa->get_qt_field_name('option');
-        $inputattributes = array('type' => $this->get_input_type(), 'name' => $inputname);
+        $inputattributes = ['type' => $this->get_input_type(), 'name' => $inputname];
 
         if ($displayoptions->readonly) {
             $inputattributes['disabled'] = 'disabled';
@@ -98,12 +95,12 @@ class qtype_mtf_renderer extends qtype_renderer {
         $this->page->requires->js(new moodle_url($CFG->wwwroot . '/question/type/mtf/js/clear.js'));
 
         $result = '';
-        $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
+        $result .= html_writer::tag('div', $question->format_questiontext($qa), ['class' => 'qtext']);
 
         $table = new html_table();
         $table->attributes['class'] = 'generaltable';
 
-        $table->head = array();
+        $table->head = [];
 
         // If the question has a deduction defined, add empty header for column with trash icon.
         if ($hasdeduction) {
@@ -114,10 +111,17 @@ class qtype_mtf_renderer extends qtype_renderer {
         // Add the response texts as table headers.
         foreach ($question->columns as $column) {
             $cell = new html_table_cell(
-                    $question->make_html_inline(
-                            $question->format_text($column->responsetext,
-                                    $column->responsetextformat, $qa, 'question', 'response',
-                                    $column->id)));
+                $question->make_html_inline(
+                    $question->format_text(
+                        $column->responsetext,
+                        $column->responsetextformat,
+                        $qa,
+                        'question',
+                        'response',
+                        $column->id
+                    )
+                )
+            );
             $table->head[] = $cell;
         }
 
@@ -134,23 +138,22 @@ class qtype_mtf_renderer extends qtype_renderer {
         $isreadonly = $displayoptions->readonly;
 
         foreach ($question->get_order($qa) as $key => $rowid) {
-
             $field = $question->field($key);
             $row = $question->rows[$rowid];
 
             // Holds the data for one table row.
-            $rowdata = array();
+            $rowdata = [];
 
             // If the question has a deduction defined, add trash icon for each row.
             if ($hasdeduction) {
                 $alttext = get_string('clearrow', 'qtype_mtf', $key + 1);
-                $trashicon = html_writer::tag('span', '', array(
+                $trashicon = html_writer::tag('span', '', [
                     'class' => 'fa fa-trash',
                     'id' => 'qtype_mtf_reset_' . $qa->get_field_prefix() . $field,
                     'role' => 'img',
                     'aria-label' => $alttext,
-                    'title' => $alttext
-                ));
+                    'title' => $alttext,
+                ]);
                 $trashcell = new html_table_cell($trashicon);
                 $trashcell->attributes['class'] = 'mtfresponsebutton reset';
                 $rowdata[] = $trashcell;
@@ -171,8 +174,17 @@ class qtype_mtf_renderer extends qtype_renderer {
                 $datamulti = 'data-multimtf="1"';
                 $singleormulti = 2; // Multi.
 
-                $radio = $this->radiobutton($buttonname, $column->number, $ischecked, $isreadonly,
-                        $buttonid, $datacol, $datamulti, $singleormulti, $qtypemtfid);
+                $radio = $this->radiobutton(
+                    $buttonname,
+                    $column->number,
+                    $ischecked,
+                    $isreadonly,
+                    $buttonid,
+                    $datacol,
+                    $datamulti,
+                    $singleormulti,
+                    $qtypemtfid
+                );
 
                 // Show correctness icon with radio button if needed.
                 if ($displayoptions->correctness) {
@@ -218,13 +230,24 @@ class qtype_mtf_renderer extends qtype_renderer {
                 $rowdata[] = $cell;
             }
             // Add the feedback to the table, if it is visible.
-            if ($displayoptions->feedback && empty($displayoptions->suppresschoicefeedback)
-            && $isselected && trim($row->optionfeedback)) {
+            if (
+                $displayoptions->feedback && empty($displayoptions->suppresschoicefeedback)
+                && $isselected && trim($row->optionfeedback)
+            ) {
                 $cell = new html_table_cell(
-                        html_writer::tag('div',
-                                $question->make_html_inline($question->format_text($row->optionfeedback,
-                                                $row->optionfeedbackformat, $qa, 'qtype_mtf',
-                                                'feedbacktext', $rowid)), array('class' => 'mtfspecificfeedback')));
+                    html_writer::tag(
+                        'div',
+                        $question->make_html_inline($question->format_text(
+                            $row->optionfeedback,
+                            $row->optionfeedbackformat,
+                            $qa,
+                            'qtype_mtf',
+                            'feedbacktext',
+                            $rowid
+                        )),
+                        ['class' => 'mtfspecificfeedback']
+                    )
+                );
                 $rowdata[] = $cell;
             } else {
                 $cell = new html_table_cell(html_writer::tag('div', ''));
@@ -239,9 +262,11 @@ class qtype_mtf_renderer extends qtype_renderer {
         $result .= html_writer::table($table, true);
 
         if ($qa->get_state() == question_state::$invalid) {
-            $result .= html_writer::nonempty_tag('div',
-                    $question->get_validation_error($qa->get_last_qt_data()),
-                    array('class' => 'validationerror'));
+            $result .= html_writer::nonempty_tag(
+                'div',
+                $question->get_validation_error($qa->get_last_qt_data()),
+                ['class' => 'validationerror']
+            );
         }
 
         if (!empty(get_config('qtype_mtf')->showscoringmethod)) {
@@ -269,9 +294,11 @@ class qtype_mtf_renderer extends qtype_renderer {
 
         if (get_string_manager()->string_exists('scoring' . $question->scoringmethod . '_help', 'qtype_mtf')) {
             $label = get_string('scoringmethod', 'qtype_mtf') . ': <b>' . ucfirst($outputscoringmethod) . '</b>';
-            $result .= html_writer::tag('div',
-                '<br>'. $label . $this->output->help_icon('scoring' . $question->scoringmethod, 'qtype_mtf'),
-                array('id' => 'scoringmethodinfo_q' . $question->id, 'label' => $label));
+            $result .= html_writer::tag(
+                'div',
+                '<br>' . $label . $this->output->help_icon('scoring' . $question->scoringmethod, 'qtype_mtf'),
+                ['id' => 'scoringmethodinfo_q' . $question->id, 'label' => $label]
+            );
         }
         return $result;
     }
@@ -289,8 +316,17 @@ class qtype_mtf_renderer extends qtype_renderer {
      * @param string $qtypemtfid
      * @return string
      */
-    protected static function radiobutton($name, $value, $checked, $readonly, $id = '', $datacol = '',
-            $datamulti = '', $singleormulti = 2, $qtypemtfid = '') {
+    protected static function radiobutton(
+        $name,
+        $value,
+        $checked,
+        $readonly,
+        $id = '',
+        $datacol = '',
+        $datamulti = '',
+        $singleormulti = 2,
+        $qtypemtfid = ''
+    ) {
 
         $readonly = $readonly ? 'readonly="readonly" disabled="disabled"' : '';
         $checked = $checked ? 'checked="checked"' : '';
@@ -320,7 +356,7 @@ class qtype_mtf_renderer extends qtype_renderer {
      */
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
-        $result = array();
+        $result = [];
         $response = '';
         $correctresponse = $question->get_correct_response(true);
 
@@ -340,11 +376,24 @@ class qtype_mtf_renderer extends qtype_renderer {
 
             $result[] = ' ' .
                      $question->make_html_inline(
-                            $question->format_text($row->optiontext, $row->optiontextformat, $qa,
-                                    'qtype_mtf', 'optiontext', $rowid)) . ': ' . $question->make_html_inline(
-                            $question->format_text($correctcolumn->responsetext,
-                                    $correctcolumn->responsetextformat, $qa, 'question', 'response',
-                                    $correctcolumn->id));
+                         $question->format_text(
+                             $row->optiontext,
+                             $row->optiontextformat,
+                             $qa,
+                             'qtype_mtf',
+                             'optiontext',
+                             $rowid
+                         )
+                     ) . ': ' . $question->make_html_inline(
+                         $question->format_text(
+                             $correctcolumn->responsetext,
+                             $correctcolumn->responsetextformat,
+                             $qa,
+                             'question',
+                             'response',
+                             $correctcolumn->id
+                         )
+                     );
         }
         if (!empty($result)) {
             $response = '<ul style="list-style-type: none;"><li>';
