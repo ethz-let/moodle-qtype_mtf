@@ -80,6 +80,14 @@ class qtype_mtf_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa, question_display_options $displayoptions) {
         global $CFG;
 
+        if ($CFG->version > 2025041403) {
+            // Styles for Moodle 5.0 and later with Bootstrap 5.
+            $tableclass = 'table-reboot';
+            $tdadditionalclass = ' m-3';
+        } else {
+            $tableclass = 'generaltable';
+        }
+
         $question = $qa->get_question();
         $hasdeduction = ($question->scoringmethod === 'subpointdeduction' && get_config('qtype_mtf')->allowdeduction);
         $response = $question->get_response($qa);
@@ -98,7 +106,7 @@ class qtype_mtf_renderer extends qtype_renderer {
         $result .= html_writer::tag('div', $question->format_questiontext($qa), ['class' => 'qtext']);
 
         $table = new html_table();
-        $table->attributes['class'] = 'generaltable';
+        $table->attributes['class'] = $tableclass;
 
         $table->head = [];
 
@@ -155,7 +163,7 @@ class qtype_mtf_renderer extends qtype_renderer {
                     'title' => $alttext,
                 ]);
                 $trashcell = new html_table_cell($trashicon);
-                $trashcell->attributes['class'] = 'mtfresponsebutton reset';
+                $trashcell->attributes['class'] = 'mtfresponsebutton reset' . $tdadditionalclass;
                 $rowdata[] = $trashcell;
             }
 
@@ -192,7 +200,7 @@ class qtype_mtf_renderer extends qtype_renderer {
                     $radio .= '<span class="mtfgreyingout">' . $this->feedback_image($weight > 0.0) . '</span>';
                 }
                 $cell = new html_table_cell($radio);
-                $cell->attributes['class'] = 'mtfresponsebutton radio';
+                $cell->attributes['class'] = 'mtfresponsebutton radio' . $tdadditionalclass;
                 $rowdata[] = $cell;
             }
 
@@ -215,7 +223,7 @@ class qtype_mtf_renderer extends qtype_renderer {
                         '</span>';
 
             $cell = new html_table_cell($rowtext);
-            $cell->attributes['class'] = 'optiontext';
+            $cell->attributes['class'] = 'optiontext' . $tdadditionalclass;
             $rowdata[] = $cell;
 
             $rowcount++;
@@ -226,7 +234,7 @@ class qtype_mtf_renderer extends qtype_renderer {
             if ($displayoptions->correctness) {
                 $rowgrade = $question->grading()->grade_row($question, $key, $row, $response);
                 $cell = new html_table_cell($this->feedback_image($rowgrade));
-                $cell->attributes['class'] = 'mtfcorrectness';
+                $cell->attributes['class'] = 'mtfcorrectness' . $tdadditionalclass;
                 $rowdata[] = $cell;
             }
             // Add the feedback to the table, if it is visible.
@@ -245,7 +253,7 @@ class qtype_mtf_renderer extends qtype_renderer {
                             'feedbacktext',
                             $rowid
                         )),
-                        ['class' => 'mtfspecificfeedback']
+                        ['class' => 'mtfspecificfeedback' . $tdadditionalclass]
                     )
                 );
                 $rowdata[] = $cell;
