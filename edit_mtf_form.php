@@ -358,6 +358,12 @@ class qtype_mtf_edit_form extends question_edit_form {
         }
         $mform->addElement('html', '</span>');
 
+        // Add contextheader field after judgmentoptionsspan.
+        $mform->addElement('text', 'contextheader', get_string('contextheader', 'qtype_mtf'), ['size' => 50, 'maxlength' => 255]);
+        $mform->setType('contextheader', PARAM_TEXT);
+        $mform->setDefault('contextheader', '');
+        $mform->addHelpButton('contextheader', 'contextheader', 'qtype_mtf');
+
         $this->responsetexts = [];
         if (isset($this->question->options->columns) && !empty($this->question->options->columns)) {
             foreach ($this->question->options->columns as $key => $column) {
@@ -569,6 +575,7 @@ class qtype_mtf_edit_form extends question_edit_form {
             $question->columns = $question->options->columns;
             $question->numberofrows = $question->options->numberofrows;
             $question->numberofcolumns = $question->options->numberofcolumns;
+            $question->contextheader = isset($question->options->contextheader) ? $question->options->contextheader : '';
         }
 
         if (isset($this->question->id)) {
