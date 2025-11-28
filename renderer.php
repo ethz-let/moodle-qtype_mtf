@@ -136,6 +136,26 @@ class qtype_mtf_renderer extends qtype_renderer {
             $table->head[] = $cell;
         }
 
+        // Add contextheader if it has text (should be over the option texts/frases column).
+        if (!empty($question->contextheader) && trim($question->contextheader) !== '') {
+            $contextcell = new html_table_cell(
+                $question->make_html_inline(
+                    $question->format_text(
+                        $question->contextheader,
+                        FORMAT_MOODLE,
+                        $qa,
+                        'qtype_mtf',
+                        'contextheader',
+                        $question->id
+                    )
+                )
+            );
+            $table->head[] = $contextcell;
+        } else {
+            // Add empty header for option texts column if no contextheader.
+            $table->head[] = '';
+        }
+
         // Add empty header for correctness if needed.
         if ($displayoptions->correctness) {
             $table->head[] = '';

@@ -25,6 +25,8 @@
 				<FIELD NAME="deduction" TYPE="float" LENGTH="4" NOTNULL="true"
 					DEFAULT="0" SEQUENCE="false" DECIMALS="3"
 					COMMENT="Deduction for wrong answers." />
+				<FIELD NAME="contextheader" TYPE="text" NOTNULL="false"
+					SEQUENCE="false" COMMENT="Optional header text for context column." />
 			</FIELDS>
 			<KEYS>
 				<KEY NAME="primary" TYPE="primary" FIELDS="id" />
