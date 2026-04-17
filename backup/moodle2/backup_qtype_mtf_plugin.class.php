@@ -43,7 +43,10 @@ class backup_qtype_mtf_plugin extends backup_qtype_plugin {
         $mtf = new backup_nested_element(
             'mtf',
             ['id'],
-            ['scoringmethod', 'shuffleanswers', 'numberofrows', 'numberofcolumns', 'answernumbering', 'deduction']
+            [
+                'scoringmethod', 'shuffleanswers', 'numberofrows', 'numberofcolumns', 'answernumbering', 'deduction',
+                'contextheader',
+            ]
         );
         $rows = new backup_nested_element('rows');
         $row = new backup_nested_element(
