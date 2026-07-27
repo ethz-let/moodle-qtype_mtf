@@ -118,6 +118,9 @@ class qtype_mtf extends question_type {
         if (!isset($question->options->deduction)) {
             $question->options->deduction = 0.0;
         }
+        if (!isset($question->options->contextheader)) {
+            $question->options->contextheader = '';
+        }
         if (!isset($question->options->scoringmethod)) {
             $question->options->scoringmethod = $mtfconfig->scoringmethod;
         }
@@ -245,6 +248,7 @@ class qtype_mtf extends question_type {
             $options->numberofrows = '';
             $options->answernumbering = '';
             $options->deduction = 0.0;
+            $options->contextheader = '';
             $options->id = $DB->insert_record('qtype_mtf_options', $options);
         }
 
@@ -291,6 +295,13 @@ class qtype_mtf extends question_type {
         $options->numberofcolumns = $question->numberofcolumns;
         $options->answernumbering = $question->answernumbering;
         $options->deduction = $question->deduction;
+        // Get contextheader from question object, default to empty string if not set.
+        $options->contextheader = '';
+        if (property_exists($question, 'contextheader') && !empty($question->contextheader)) {
+            $options->contextheader = trim($question->contextheader);
+        } elseif (isset($question->contextheader)) {
+            $options->contextheader = trim($question->contextheader);
+        }
         $DB->update_record('qtype_mtf_options', $options);
 
         unset($question->option);
@@ -529,6 +540,7 @@ class qtype_mtf extends question_type {
         $question->columns = $questiondata->options->columns;
         $question->weights = $questiondata->options->weights;
         $question->answernumbering = $questiondata->options->answernumbering;
+        $question->contextheader = isset($questiondata->options->contextheader) ? $questiondata->options->contextheader : '';
     }
 
     /**

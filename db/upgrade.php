@@ -54,5 +54,19 @@ function xmldb_qtype_mtf_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023012200, 'qtype', 'mtf');
     }
 
+    if ($oldversion < 2025052801) {
+        // Define field contextheader to be added to qtype_mtf_options.
+        $table = new xmldb_table('qtype_mtf_options');
+        $field = new xmldb_field('contextheader', XMLDB_TYPE_TEXT, null, null, null, null, null, 'deduction');
+
+        // Conditionally launch add field contextheader.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // MTF savepoint reached.
+        upgrade_plugin_savepoint(true, 2025052801, 'qtype', 'mtf');
+    }
+
     return true;
 }
