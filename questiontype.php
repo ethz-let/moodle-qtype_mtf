@@ -592,13 +592,14 @@ class qtype_mtf extends question_type {
 
         if ($scoring == 'mtfonezero') {
             return pow(0.5, count($question->rows));
+        } else if ($scoring == 'customscale') {
+            return 0.30625;
         } else if ($scoring == 'subpoints') {
             return 0.5;
         } else {
             return 0.00;
         }
     }
-
     /**
      * (non-PHPdoc).
      * @see question_type::get_possible_responses()

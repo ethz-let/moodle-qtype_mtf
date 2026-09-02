@@ -227,6 +227,24 @@ final class questiontype_test extends \advanced_testcase {
     }
 
     /**
+     * Test get_random_guess_score_customscale
+     *
+     * @covers ::get_random_guess_score
+     */
+    public function test_get_random_guess_score_customscale(): void {
+    
+        $question = $this->get_test_question_data();
+    
+        $question->options->scoringmethod = 'customscale';
+    
+        $this->assertEqualsWithDelta(
+            0.30625,
+            $this->qtype->get_random_guess_score($question),
+            0.00001
+        );
+    }
+
+    /**
      * Test get_possible_responses_subpoints
      *
      * @covers ::get_possible_responses
@@ -362,4 +380,5 @@ final class questiontype_test extends \advanced_testcase {
         $options = $question->options;
         $this->assertEquals($question->id, $options->questionid);
     }
+
 }

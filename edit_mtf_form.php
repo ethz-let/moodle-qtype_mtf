@@ -319,6 +319,14 @@ class qtype_mtf_edit_form extends question_edit_form {
             'mtfonezero',
             $attributes
         );
+       $scoringbuttons[] = &$mform->createElement(
+            'radio',
+            'scoringmethod',
+            '',
+            get_string('scoringcustomscale', 'qtype_mtf'),
+            'customscale',
+            $attributes
+        );
 
         $mform->addGroup($scoringbuttons, 'radiogroupscoring', get_string('scoringmethod', 'qtype_mtf'), [' <br/> '], false);
         $mform->addHelpButton('radiogroupscoring', 'scoringmethod', 'qtype_mtf');
