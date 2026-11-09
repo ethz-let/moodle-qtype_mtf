@@ -860,11 +860,11 @@ Feature: Step 1
   #  And I wait "300" seconds
     Then I should not see "MTF Question"
 
-
   @javascript @qtype_mtf_scenario_5_6
-  Scenario: Testcase 5, 6 for Moodle ≥ 5.0
+  Scenario: Testcase 5, 6 for Moodle ≥ 5.0 and Moodle < 5.3
 
     Given the site is running Moodle version 5.0 or higher
+    And the site is running Moodle version 5.2 or lower
 
     When I am on the "Course 1" "core_question > course question bank" page
     And I add a "Multiple True False (ETH)" question filling the form with:
@@ -933,6 +933,78 @@ Feature: Step 1
     When I choose "Delete" action for "MTF Question (copy)" in the question bank
     And I press "Delete"
   #  And I wait "300" seconds
+    Then I should not see "MTF Question"
+
+  @javascript @qtype_mtf_scenario_5_6
+  Scenario: Testcase 5, 6 for Moodle ≥ 5.3
+
+    Given the site is running Moodle version 5.3 or higher
+
+    When I am on the "Course 1" "core_question > course question bank" page
+    And I add a "Multiple True False (ETH)" question filling the form with:
+      | id_name                  | MTF Question              |
+      | id_questiontext          | This is a questiontext.   |
+      | id_generalfeedback       | This feedback is general. |
+      | id_option_0              | 1st optiontext            |
+      | id_feedback_0            | 1st feedbacktext          |
+      | id_option_1              | 2nd optiontext            |
+      | id_feedback_1            | 2nd feedbacktext          |
+      | id_option_2              | 3rd optiontext            |
+      | id_feedback_2            | 3rd feedbacktext          |
+      | id_option_3              | 4th optiontext            |
+      | id_feedback_3            | 4th feedbacktext          |
+      | id_weightbutton_0_1      | checked                   |
+      | id_weightbutton_1_1      | checked                   |
+      | id_weightbutton_2_2      | checked                   |
+      | id_weightbutton_3_2      | checked                   |
+    Then I should see "Question bank"
+    And I should see "MTF Question"
+
+  # Include hints in question which will be duplicated
+    When I choose "Edit question" action for "MTF Question" in the question bank
+    And I click on "Multiple tries" "link"
+    And I set the following fields to these values:
+      | id_hint_0 | 1th hinttext |
+      | id_hint_1 | 2nd hinttext |
+    And I press "submitbutton"
+    Then I should see "Question bank"
+    And I should see "MTF Question"
+
+  # Duplicate the question
+    When I choose "Duplicate" action for "MTF Question" in the question bank
+    And I press "id_submitbutton"
+    Then I should see "MTF Question"
+    And I should see "MTF Question (copy)"
+
+  # Check if hints have been copied to the duplicated question
+    When I choose "Edit question" action for "MTF Question (copy)" in the question bank
+    And I click on "Multiple tries" "link"
+    Then the following fields match these values:
+      | id_hint_0                | 1th hinttext |
+      | id_hint_1                | 2nd hinttext |
+    And I press "cancel"
+    Then I should see "Question bank"
+    And I should see "MTF Question"
+    And I should see "MTF Question (copy)"
+
+  # Move the question to another category
+    When I click on "MTF Question (copy)" "checkbox" in the "MTF Question (copy)" "table_row"
+    And I click on "move" "button"
+    And the field "searchbanks" matches value "C1 - System shared question bank"
+    And the field "selectcategory" matches value "Test questions (3)"
+    And I open the autocomplete suggestions list in the ".search-banks" "css_element"
+    And I open the autocomplete suggestions list in the ".question_category_selector" "css_element"
+    And I click on "AnotherCat" item in the autocomplete list
+    And I click on "Move questions" "button"
+    And I click on "Confirm" "button"
+    And I wait until the page is ready
+    Then I should see "Question bank"
+    And I should see "AnotherCat"
+    And I should see "MTF Question (copy)"
+
+  # Delete the question
+    When I choose "Delete" action for "MTF Question (copy)" in the question bank
+    And I click on "Delete" "button" in the "Delete question?" "dialogue"
     Then I should not see "MTF Question"
 
   @javascript
